@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lazy Load Images Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <style>
+    .wrapper {
+      /* The image is initially hidden */
+      display: none;
+      background: #F1F1FA;
+      position: relative;
+      height: 0;
+      /* Formula is: (height / width * 100%) */
+      padding-top: calc(474 / 1024 * 100%);
+    }
+
+    .wrapper__img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+<main style="padding: 20px">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <p>
+          Click the button below to reveal a photo. The photo does not load when the page opens; it's loaded lazily
+          when the button is clicked.
+        </p>
+        <p>
+          To verify it, open the DevTools and inspect the Network tab on page load and then on button click.
+        </p>
+        <div>
+          <button class="btn btn-default" type="button" id="openSectionBtn">Click to show/hide photo</button>
+        </div>
+        <div id="photoSection" class="wrapper">
+          <img id="photo" data-src="assets/photo.jpg" class="wrapper__img" alt="Photo">
+          <p>The responsive image placeholder should take up the same amount of space as the responsive image so that
+            layout does not jump and shift. To see the placeholder in action, go to the Network tab in the DevTools
+            to simulate slow network (<b>Note</b>: the placeholder will be displayed only when the photo loads for the
+            first time. Also, make sure cache is disabled.)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+  $( "#openSectionBtn" ).click(function() {
+    $( "#photoSection" ).toggle();
+
+    var photoElement = $( "#photo" );
+    var isSrcSet = photoElement.attr("src");
+
+    if (!isSrcSet) {
+      photoElement.attr('src', photoElement.attr('data-src'));
+    }
+  });
+</script>
+</body>
+</html>
